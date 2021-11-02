@@ -20,6 +20,10 @@ object nivelBloques {
 		// teclado
 		// este es para probar, no es necesario dejarlo
 		keyboard.t().onPressDo({ self.terminar() })
+		keyboard.right().onPressDo({ personajeSimple.moverDerecha() })
+		keyboard.left().onPressDo({ personajeSimple.moverIzquierda() })
+		keyboard.up().onPressDo({ personajeSimple.moverArriba() })
+		keyboard.down().onPressDo({ personajeSimple.moverAbajo() })
 
 		// en este no hacen falta colisiones
 	}
