@@ -13,15 +13,13 @@ object personajeSimple {
 	var property position = game.at(10,8)
 	const property image = "edys.png"	
 	var property posicionAnterior
-	var property energia = 30
+	var property energia = 99
 
 	method agarrarProvision() {
 		if(self.hayProvisionesAlrededor()) {
 			self.provisionesAlrededor().forEach({ p => 
 				energia += p.energia()
 				game.removeVisual(p)
-//				energiaPrimerDigito.image(energia.div(10).stringValue() + ".png")
-//				energiaSegundoDigito.image((energia % 10).stringValue() + ".png")
 			})
 			nivelEnergia.actualizarDigitos(energia)
 		}
@@ -46,8 +44,6 @@ object personajeSimple {
 		self.position(pos)
 		energia -= 1
 		nivelEnergia.actualizarDigitos(energia)
-//		energiaPrimerDigito.image(energia.div(10).stringValue() + ".png")
-//		energiaSegundoDigito.image((energia % 10).stringValue() + ".png")
 		if(utilidadesParaJuego.hayColision(self)) {
 			game.onCollideDo(self, { e => e.colisionarConPersonaje(self) })
 		}

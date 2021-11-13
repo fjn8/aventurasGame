@@ -7,36 +7,35 @@ import utilidades.*
 import nivelEnergia.*
 
 object nivelBloques {
-
+	var visualesNivel = [new Petardo(), new Petardo(), new Petardo(), new Petardo(), 
+		new Caramelo(image = "caramelo1.png", energia = 2), new Caramelo(image = "caramelo1.png", energia = 2), 
+		new Caramelo(image = "caramelo2.png", energia = 5), new Caramelo(image = "caramelo3.png", energia = 10),
+		deposito, personajeSimple
+	] 
+	
+	method asignarPosiciones() {
+		var posiciones = utilidadesParaJuego.crearPosicionesAleatorias(visualesNivel.size())
+		var i = 0
+		visualesNivel.size().times({ i => 
+			visualesNivel.get(i - 1).position(posiciones.get(i - 1))
+		})
+	}
+	
 	method configurate() {
-		// fondo - es importante que sea el primer visual que se agregue
 		game.addVisual(new Fondo(image="fondoPrimerNivel.jpg"))
-				 
-		// otros visuals, p.ej. bloques o llaves
-		game.addVisual(new Bloque(position=game.at(13, 0)))
-		game.addVisual(new Bloque(position=game.at(5, 2)))
-		game.addVisual(new Bloque(position=game.at(2, 3)))
-		game.addVisual(new Bloque(position=game.at(14, 5)))
-		game.addVisual(new Provision(position=game.at(14, 1)))
-		game.addVisual(new Provision(position=game.at(5, 3)))
-		game.addVisual(new Provision(position=game.at(3, 4)))
-		game.addVisual(new Provision(position=game.at(10, 0)))
-		game.addVisual(deposito)
-//		game.addVisual(energiaPrimerDigito)
-//		game.addVisual(energiaSegundoDigito)
+		self.asignarPosiciones()
+		visualesNivel.forEach({ v =>  
+			game.addVisual(v)
+		})
+		
 		nivelEnergia.dibujarDigitos()
 			
-		// personaje, es importante que sea el último visual que se agregue
-		game.addVisual(personajeSimple)
 		
-		// teclado
-		// este es para probar, no es necesario dejarlo
 		keyboard.right().onPressDo({ personajeSimple.moverDerecha() })
 		keyboard.left().onPressDo({ personajeSimple.moverIzquierda() })
 		keyboard.up().onPressDo({ personajeSimple.moverArriba() })
 		keyboard.down().onPressDo({ personajeSimple.moverAbajo() })
 		keyboard.space().onPressDo({ personajeSimple.agarrarProvision() })
-		// en este no hacen falta colisiones
 	}
 	
 	method terminar() {

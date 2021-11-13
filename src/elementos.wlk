@@ -4,8 +4,7 @@ import utilidades.*
 import personajes.*
 
 class Bloque {
-	var property position
-	const property image = "petardo.png"
+	var property position = 0
 
 	method colisionarConPersonaje(personaje) {
 		const movimientoX = personaje.posicionAnterior().x() - personaje.position().x()
@@ -22,8 +21,16 @@ class Bloque {
 	method guardar(elemento) { }
 }
 
+class Petardo inherits Bloque {
+	var property image = "petardo.png"
+}
+
+object encendedor inherits Bloque {
+	var property image = "encendedor.png"
+}
+
 object deposito {
-	var property position = utilidadesParaJuego.posicionArbitraria()
+	var property position = 0
 	const property image = "alcantarilla.png"
 	var property cajasGuardadas = 0
 	
@@ -33,19 +40,28 @@ object deposito {
 		game.removeVisual(elemento)
 		cajasGuardadas += 1
 		if(cajasGuardadas == 4) {
-			nivelBloques.terminar()
+			encendedor.position(utilidadesParaJuego.posicionArbitraria())
+			game.addVisual(encendedor)
+		}
+		
+		if(cajasGuardadas == 5) { 
+			game.sound("explosion.mp3")
+			game.schedule(2500, {
+				nivelBloques.terminar()
+			})
 		}
 	}
 	
 	method esProvision() = false
 }
 
-class Provision {
-	var property position
-	var property image = "estrella.png"
+class Caramelo {
+	var property position = 0
+	var property image 
+	var property energia
 	
 	method colisionarConPersonaje(personaje) { }
 	
 	method esProvision() = true
-	method energia() = 1
+	method guardar() { }
 }
