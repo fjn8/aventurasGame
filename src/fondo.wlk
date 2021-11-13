@@ -5,4 +5,6 @@ class Fondo {
 	var property image 
 	
 	method colisionar(personaje) { }
+	
+	method guardar(elemento) { }
 }

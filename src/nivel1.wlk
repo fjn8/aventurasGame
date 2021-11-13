@@ -3,28 +3,39 @@ import fondo.*
 import personajes.*
 import elementos.*
 import nivel2.*
-
+import utilidades.*
+import nivelEnergia.*
 
 object nivelBloques {
 
 	method configurate() {
 		// fondo - es importante que sea el primer visual que se agregue
-		game.addVisual(new Fondo(image="fondoCompleto.png"))
+		game.addVisual(new Fondo(image="fondoPrimerNivel.jpg"))
 				 
 		// otros visuals, p.ej. bloques o llaves
-		game.addVisual(new Bloque(position=game.at(3,12)))
+		game.addVisual(new Bloque(position=game.at(13, 0)))
+		game.addVisual(new Bloque(position=game.at(5, 2)))
+		game.addVisual(new Bloque(position=game.at(2, 3)))
+		game.addVisual(new Bloque(position=game.at(14, 5)))
+		game.addVisual(new Provision(position=game.at(14, 1)))
+		game.addVisual(new Provision(position=game.at(5, 3)))
+		game.addVisual(new Provision(position=game.at(3, 4)))
+		game.addVisual(new Provision(position=game.at(10, 0)))
+		game.addVisual(deposito)
+//		game.addVisual(energiaPrimerDigito)
+//		game.addVisual(energiaSegundoDigito)
+		nivelEnergia.dibujarDigitos()
 			
 		// personaje, es importante que sea el último visual que se agregue
 		game.addVisual(personajeSimple)
 		
 		// teclado
 		// este es para probar, no es necesario dejarlo
-		keyboard.t().onPressDo({ self.terminar() })
 		keyboard.right().onPressDo({ personajeSimple.moverDerecha() })
 		keyboard.left().onPressDo({ personajeSimple.moverIzquierda() })
 		keyboard.up().onPressDo({ personajeSimple.moverArriba() })
 		keyboard.down().onPressDo({ personajeSimple.moverAbajo() })
-
+		keyboard.space().onPressDo({ personajeSimple.agarrarProvision() })
 		// en este no hacen falta colisiones
 	}
 	

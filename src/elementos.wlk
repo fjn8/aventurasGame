@@ -1,46 +1,51 @@
 import wollok.game.*
+import nivel1.*
+import utilidades.*
+import personajes.*
 
 class Bloque {
 	var property position
-	const property image = "market.png"
-	
-	method colisionar(personaje) {
-			if(personaje.posicionAnterior().x() - personaje.position().x() == -1) {
-				self.moverDerecha()
-			}
-			if(personaje.posicionAnterior().x() - personaje.position().x() == 1) {
-				self.moverIzquierda()
-			}
-			if(personaje.posicionAnterior().y() - personaje.position().y() == -1) {
-				self.moverArriba()
-			}
-			if(personaje.posicionAnterior().y() - personaje.position().y() == 1) {
-				self.moverAbajo()
-			}
-	}
-	
-	method moverDerecha() {
-		if(position.x() < game.width() - 1) {
-			self.position(position.right(1))
+	const property image = "petardo.png"
+
+	method colisionarConPersonaje(personaje) {
+		const movimientoX = personaje.posicionAnterior().x() - personaje.position().x()
+		const movimientoY = personaje.posicionAnterior().y() - personaje.position().y()
+		
+		self.position(game.at(position.x() - movimientoX, position.y() - movimientoY))
+		
+		if(utilidadesParaJuego.hayColision(self)) {
+			game.onCollideDo(self, { e => e.guardar(self)})
 		}
 	}
 	
-	method moverIzquierda() {
-		if(position.x() != 0){
-			self.position(position.left(1))	
-		}	
-	}
-	
-	method moverArriba() {
-		if(position.y() < game.height() - 1){
-			self.position(position.up(1))		
-		}
-	}
-	
-	method moverAbajo() {
-		if(position.y() != 0) {
-			self.position(position.down(1))			
-		}
-	}
+	method esProvision() = false
+	method guardar(elemento) { }
 }
 
+object deposito {
+	var property position = utilidadesParaJuego.posicionArbitraria()
+	const property image = "alcantarilla.png"
+	var property cajasGuardadas = 0
+	
+	method colisionarConPersonaje(personaje) { }
+	
+	method guardar(elemento) {
+		game.removeVisual(elemento)
+		cajasGuardadas += 1
+		if(cajasGuardadas == 4) {
+			nivelBloques.terminar()
+		}
+	}
+	
+	method esProvision() = false
+}
+
+class Provision {
+	var property position
+	var property image = "estrella.png"
+	
+	method colisionarConPersonaje(personaje) { }
+	
+	method esProvision() = true
+	method energia() = 1
+}
