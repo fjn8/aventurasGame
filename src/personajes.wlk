@@ -5,48 +5,18 @@ import elementos.*
 import fondo.*
 import nivelEnergia.*
 
-// en la implementación real, conviene tener un personaje por nivel
-// los personajes probablemente tengan un comportamiendo más complejo que solamente
-// imagen y posición
-
-object personajeSimple {
+class Personaje {
 	var property position = game.at(10,8)
-	const property image = "edys.png"	
-	var property posicionAnterior
 	var property energia = 99
-
-	method agarrarProvision() {
-		if(self.hayProvisionesAlrededor()) {
-			self.provisionesAlrededor().forEach({ p => 
-				energia += p.energia()
-				game.removeVisual(p)
-			})
-			nivelEnergia.actualizarDigitos(energia)
-		}
-	}
-	
-	method hayProvisionesAlrededor() {
-		return not self.provisionesAlrededor().isEmpty()
-	}
-	
-	method provisionesAlrededor() {
-		var provisiones = []
-		game.getObjectsIn(position.right(1)).forEach({ p => provisiones.add(p) })
-		game.getObjectsIn(position.left(1)).forEach({ p => provisiones.add(p) })
-		game.getObjectsIn(position.up(1)).forEach({ p => provisiones.add(p) })
-		game.getObjectsIn(position.down(1)).forEach({ p => provisiones.add(p) })
-		
-		return provisiones.filter({ p => p.esProvision() })
-	}
 	
 	method cambiarPosicion(pos) {
-		self.posicionAnterior(self.position())
 		self.position(pos)
-		energia -= 1
-		nivelEnergia.actualizarDigitos(energia)
 		if(utilidadesParaJuego.hayColision(self)) {
 			game.onCollideDo(self, { e => e.colisionarConPersonaje(self) })
 		}
+		
+		energia -= 1
+		nivelEnergia.actualizarDigitos(energia)
 		
 		if(energia == 0) {
 			utilidadesParaJuego.perder()
@@ -86,3 +56,50 @@ object personajeSimple {
 	}	
 }
 
+object personajeNivel1 inherits Personaje {
+	const property image = "edys.png"
+	var property posicionAnterior = 0
+	
+	override method cambiarPosicion(pos) {
+		self.posicionAnterior(self.position())
+		super(pos)
+	}
+	
+	method agarrarProvision() {
+		if(self.hayProvisionesAlrededor()) {
+			self.provisionesAlrededor().forEach({ p => 
+				energia += p.energia()
+				game.say(self, "Este caramelo me dio " + p.energia() + " de energía!")
+				game.removeVisual(p)
+			})
+			nivelEnergia.actualizarDigitos(energia)
+		}
+	}
+	
+	method hayProvisionesAlrededor() {
+		return not self.provisionesAlrededor().isEmpty()
+	}
+	
+	method provisionesAlrededor() {
+		var objetosAlrededor = []
+		game.getObjectsIn(position.right(1)).forEach({ p => objetosAlrededor.add(p) })
+		game.getObjectsIn(position.left(1)).forEach({ p => objetosAlrededor.add(p) })
+		game.getObjectsIn(position.up(1)).forEach({ p => objetosAlrededor.add(p) })
+		game.getObjectsIn(position.down(1)).forEach({ p => objetosAlrededor.add(p) })
+		
+		return objetosAlrededor.filter({ o => o.energia() > 0 })
+	}
+}
+
+object personajeNivel2 inherits Personaje {
+	var property salud = 99
+	var property dinero = 0
+	var property image = "edys.png"
+	
+	override method cambiarPosicion(pos) {
+		super(pos)
+		if(salud == 0) {
+			utilidadesParaJuego.perder()
+		}
+	}
+}
