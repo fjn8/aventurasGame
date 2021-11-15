@@ -4,7 +4,7 @@ import personajes.*
 import elementos.*
 import nivel2.*
 import utilidades.*
-import nivelEnergia.*
+import nivelEnergia.* 
 
 object nivelBloques {
 	var visualesNivel = [new Bloque(image="petardo.png"), new Bloque(image="petardo.png"), 
@@ -14,6 +14,11 @@ object nivelBloques {
 		deposito, personajeNivel1] 
 		
 	var posiciones = utilidadesParaJuego.crearPosicionesAleatorias(visualesNivel.size())
+	
+	method inicio() {
+		keyboard.enter().onPressDo{self.configurate()}
+	}
+	
 	
 	method configurate() {
 		// Agregar el fondo
@@ -27,7 +32,9 @@ object nivelBloques {
 		})
 			
 		// Agregar indicador de energia
-		nivelEnergia.dibujarDigitos()
+//		nivelEnergia.dibujarDigitos()
+		personajeNivel1.indEnergia().dibujarElementos()
+
 			
 		keyboard.right().onPressDo({ personajeNivel1.moverDerecha() })
 		keyboard.left().onPressDo({ personajeNivel1.moverIzquierda() })

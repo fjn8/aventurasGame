@@ -8,9 +8,9 @@ program juego_aventura {
 	game.cellSize(80)
 	game.height(7)
 	game.width(15)
-	game.boardGround("fondoblanco.jpg")
+	game.boardGround("inicio.png")
 	
-	nivelBloques.configurate()	
+	nivelBloques.inicio()	
 	
 	game.start()
 }

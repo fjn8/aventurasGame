@@ -2,6 +2,8 @@ import wollok.game.*
 import nivel1.*
 import utilidades.*
 import personajes.*
+import nivelEnergia.*
+import nivel2.*
 
 // Elementos del tablero que el personaje puede mover
 class Bloque {
@@ -78,39 +80,57 @@ class Enemigo {
 	var property dineroQueOtorga
 	
 	method colisionarConPersonaje(personaje) {
-		console.println("Salud anterior: " + personaje.salud())
-		console.println("Dinero anterior: " + personaje.dinero())
 		self.darDinero(personaje)
 		self.quitarSalud(personaje)
+		personaje.indDinero().actualizarDigitos(personaje.dinero())
+		personaje.indSalud().actualizarDigitos(personaje.salud())
 		game.removeVisual(self)
-		console.println("Salud ahora: " + personaje.salud())
-		console.println("Dinero ahora: " + personaje.dinero())
-		console.println("------------")
+		nivelLlaves.sacarEnemigo(self)
+		if(nivelLlaves.cantidadEnemigos() == 0){
+			game.addVisual(puerta)
+		}
+		
 	} 
 	
+	method esEnemigo() = true
+	
 	method quitarSalud(personaje) {
-		personaje.salud(personaje.salud() - dineroQueOtorga.div(dineroQueOtorga))
+		personaje.salud(personaje.salud() - dineroQueOtorga.div(dineroQueOtorga)*3)
+		personaje.indSalud().actualizarDigitos(personaje.salud())
+		
+		if(personaje.salud() == 0) {
+			utilidadesParaJuego.perder()
+		}
 	}
 	
 	method darDinero(personaje) {
 		personaje.dinero(personaje.dinero() + dineroQueOtorga)
+		personaje.indDinero().actualizarDigitos(personaje.dinero())
 	}
 }
 
 class CeldaSorpresa {
 	var property position = 0
 	var property image = "caja.png"
-	var property saludQueOtorga = -10.randomUpTo(10)
-	var property energiaQueOtorga = -10.randomUpTo(10)
+	var property saludQueOtorga = -10.randomUpTo(5)
+	var property energiaQueOtorga = -10.randomUpTo(5)
 	
 	method colisionarConPersonaje(personaje) {
-		console.println("Salud anterior: " + personaje.salud())
-		console.println("Energia anterior: " + personaje.energia())
-		personaje.salud(personaje.salud() + 10)
-		personaje.energia(personaje.energia() + 10)
+		personaje.salud(personaje.salud() + saludQueOtorga)
+		personaje.indSalud().actualizarDigitos(personaje.salud())
+		personaje.energia(personaje.energia() + energiaQueOtorga)
+		personaje.indEnergia().actualizarDigitos(personaje.energia())
 		game.removeVisual(self)
-		console.println("Salud ahora: " + personaje.salud())
-		console.println("Energia ahora: " + personaje.energia())
-		console.println("------------")
+	}
+	
+	method esEnemigo() = false
+}
+
+object puerta {
+	var property position = utilidadesParaJuego.posicionArbitraria()
+	var property image = "puerta.png"
+	
+	method colisionarConPersonaje(personaje){
+		nivelLlaves.ganar()
 	}
 }

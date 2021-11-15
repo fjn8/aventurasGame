@@ -3,11 +3,12 @@ import utilidades.*
 import nivel1.*
 import elementos.*
 import fondo.*
-import nivelEnergia.*
+import nivelEnergiaNEW.* 
 
 class Personaje {
 	var property position = game.at(10,8)
-	var property energia = 99
+	var property energia = 50
+	var property indEnergia = new Indicador(imagen = "rayo.png", nivelInicial = energia, posicionInicial = game.at(0, game.height() - 1))
 	
 	method cambiarPosicion(pos) {
 		self.position(pos)
@@ -16,7 +17,7 @@ class Personaje {
 		}
 		
 		energia -= 1
-		nivelEnergia.actualizarDigitos(energia)
+		self.indEnergia().actualizarDigitos(energia)
 		
 		if(energia == 0) {
 			utilidadesParaJuego.perder()
@@ -72,7 +73,7 @@ object personajeNivel1 inherits Personaje {
 				game.say(self, "Este caramelo me dio " + p.energia() + " de energía!")
 				game.removeVisual(p)
 			})
-			nivelEnergia.actualizarDigitos(energia)
+			self.indEnergia().actualizarDigitos(energia)
 		}
 	}
 	
@@ -92,14 +93,13 @@ object personajeNivel1 inherits Personaje {
 }
 
 object personajeNivel2 inherits Personaje {
-	var property salud = 99
+	var property salud = 40
 	var property dinero = 0
-	var property image = "edys.png"
+	var property image = "edysbici.png"
 	
-	override method cambiarPosicion(pos) {
-		super(pos)
-		if(salud == 0) {
-			utilidadesParaJuego.perder()
-		}
-	}
+	var property indSalud = new Indicador(imagen = "pulso.png", nivelInicial = salud, posicionInicial = game.at(4, game.height() - 1))
+	var property indDinero = new Indicador(imagen = "dinero.png", nivelInicial = dinero, posicionInicial = game.at(8, game.height() - 1))
+	
+	method esEnemigo() = false
+	
 }

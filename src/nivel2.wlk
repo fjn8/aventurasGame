@@ -4,13 +4,19 @@ import personajes.*
 import utilidades.*
 import elementos.*
 import utilidades.*
+import nivelEnergia.*
+import nivel1.*
 
 object nivelLlaves {
-	var visualesNivel = [personajeNivel2, new Enemigo(image="personaje01.png", dineroQueOtorga = 200),
-		new Enemigo(image="personaje02.png", dineroQueOtorga = 100), new Enemigo(image="personaje03.png", dineroQueOtorga = 60),
+	var visualesNivel = [personajeNivel2, new Enemigo(image="personaje01.png", dineroQueOtorga = 5),
+		new Enemigo(image="personaje02.png", dineroQueOtorga = 10), new Enemigo(image="personaje03.png", dineroQueOtorga = 15),
 		new CeldaSorpresa(), new CeldaSorpresa()]
 		
 	var posiciones = utilidadesParaJuego.crearPosicionesAleatorias(visualesNivel.size())
+	
+	method cantidadEnemigos() = visualesNivel.count({ v => v.esEnemigo()})
+	
+	method sacarEnemigo(enemigo) { visualesNivel.remove(enemigo)}
 	
 	method configurate() {
 		// Agregar el fondo
@@ -24,7 +30,15 @@ object nivelLlaves {
 		})
 			
 		// Agregar indicador de energia
-		// nivelEnergia.dibujarDigitos()
+//		nivelEnergia.actualizarDigitos(personajeNivel2.energia())
+//		nivelEnergia.dibujarDigitos()
+//		nivelVida.actualizarDigitos(personajeNivel2.salud())
+//		nivelVida.dibujarDigitos()
+//		nivelDinero.actualizarDigitos(personajeNivel2.dinero())
+//		nivelDinero.dibujarDigitos()
+		personajeNivel2.indDinero().dibujarElementos()
+		personajeNivel2.indSalud().dibujarElementos()
+		personajeNivel2.indEnergia().dibujarElementos()
 			
 		keyboard.right().onPressDo({ personajeNivel2.moverDerecha() })
 		keyboard.left().onPressDo({ personajeNivel2.moverIzquierda() })
@@ -34,11 +48,11 @@ object nivelLlaves {
 	
 	method ganar() {
 		game.clear()
-		game.addVisual(new Fondo(image="complete.png"))
-		game.schedule(3000, {
-			game.stop()
-		})
+		game.addVisual(new Fondo(image="winner.png"))
+		personajeNivel1.energia(50)
+		deposito.bloquesGuardados(0)
+		keyboard.e().onPressDo{nivelBloques.configurate()}
+		keyboard.s().onPressDo{game.stop()}
 	}
-	
 	
 }
