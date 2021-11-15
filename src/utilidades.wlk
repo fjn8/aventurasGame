@@ -21,6 +21,9 @@ object utilidadesParaJuego {
 			game.clear()
 			game.addVisual(new Fondo(image="gameover.png"))
 			personajeNivel1.energia(50)
+			personajeNivel2.energia(50)
+			personajeNivel2.salud(40)
+			personajeNivel2.dinero(0)
 			deposito.bloquesGuardados(0)
 			keyboard.e().onPressDo{nivelBloques.configurate()}
 		    keyboard.s().onPressDo{game.stop()}

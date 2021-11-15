@@ -19,7 +19,7 @@ class Personaje {
 		energia -= 1
 		self.indEnergia().actualizarDigitos(energia)
 		
-		if(energia == 0) {
+		if(energia < 1) {
 			utilidadesParaJuego.perder()
 		}
 	}

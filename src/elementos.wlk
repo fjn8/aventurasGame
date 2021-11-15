@@ -98,7 +98,7 @@ class Enemigo {
 		personaje.salud(personaje.salud() - dineroQueOtorga.div(dineroQueOtorga)*3)
 		personaje.indSalud().actualizarDigitos(personaje.salud())
 		
-		if(personaje.salud() == 0) {
+		if(personaje.salud() < 1) {
 			utilidadesParaJuego.perder()
 		}
 	}
@@ -112,13 +112,13 @@ class Enemigo {
 class CeldaSorpresa {
 	var property position = 0
 	var property image = "caja.png"
-	var property saludQueOtorga = -10.randomUpTo(5)
-	var property energiaQueOtorga = -10.randomUpTo(5)
+	var property saludQueOtorga = -10.randomUpTo(5).roundUp()
+	var property energiaQueOtorga = -10.randomUpTo(5).roundUp()
 	
 	method colisionarConPersonaje(personaje) {
 		personaje.salud(personaje.salud() + saludQueOtorga)
-		personaje.indSalud().actualizarDigitos(personaje.salud())
 		personaje.energia(personaje.energia() + energiaQueOtorga)
+		personaje.indSalud().actualizarDigitos(personaje.salud())
 		personaje.indEnergia().actualizarDigitos(personaje.energia())
 		game.removeVisual(self)
 	}
