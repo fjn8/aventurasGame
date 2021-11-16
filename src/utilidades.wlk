@@ -3,9 +3,13 @@ import nivel1.*
 import personajes.*
 import elementos.*
 import fondo.*
-import nivelEnergia.* 
 
 object utilidadesParaJuego {
+	
+	//chequear elementos que caen del tablero
+	
+	method estaFueraDelTablero(elemento) = not(elemento.position().y().between(0, game.height() - 1)) or not(elemento.position().x().between(0, game.width() - 1))
+	
 	method posicionArbitraria() {
 		return game.at(
 			1.randomUpTo(game.width() - 1).truncate(0), 1.randomUpTo(game.height() - 1).truncate(0)
@@ -22,14 +26,6 @@ object utilidadesParaJuego {
 			game.addVisual(new Fondo(image="gameover.png"))
 			personajeNivel1.reiniciarIndicadores()
 		    personajeNivel2.reiniciarIndicadores()
-			/*
-			personajeNivel1.energia(50)
-			personajeNivel2.energia(50)
-			personajeNivel2.salud(40)
-			personajeNivel2.dinero(0)
-			personajeNivel1.indEnergia().actualizarDigitos(personajeNivel1.energia())
-			personajeNivel2.indSalud().actualizarDigitos(personajeNivel2.salud())
-			personajeNivel2.indDinero().actualizarDigitos(personajeNivel2.dinero())*/
 			deposito.bloquesGuardados(0)
 			keyboard.e().onPressDo{nivelBloques.configurate()}
 		    keyboard.s().onPressDo{game.stop()}

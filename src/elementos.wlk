@@ -2,7 +2,6 @@ import wollok.game.*
 import nivel1.*
 import utilidades.*
 import personajes.*
-import nivelEnergia.*
 import nivel2.*
 
 // Elementos del tablero que el personaje puede mover
@@ -20,19 +19,16 @@ class Bloque {
 		if(utilidadesParaJuego.hayColision(self)) {
 			game.onCollideDo(self, { e => e.guardar(self)})
 		}
+		
+		if(utilidadesParaJuego.estaFueraDelTablero(self){
+			utilidadesParaJuego.perder()
+		}
 	}
 	
 	method energia() = 0
 	method guardar(elemento) { }
 }
 
-//class Petardo inherits Bloque {
-//	var property image = "petardo.png"
-//}
-//
-//object encendedor inherits Bloque {
-//	var property image = "encendedor.png"
-//}
 
 // Alcantarilla donde se acumulan los elementos
 object deposito {
@@ -54,7 +50,7 @@ object deposito {
 		if(bloquesGuardados == 5) { 
 			game.sound("explosion.mp3").play()
 			game.schedule(2500, {
-				nivelBloques.terminar()
+				nivelBloques.ganar()
 			})
 		}
 	}
@@ -86,15 +82,10 @@ class Enemigo {
 		personaje.indSalud().actualizarDigitos(personaje.salud())
 		game.removeVisual(self)
 		personaje.enemigos(personaje.enemigos()+1) //le sumo un enemigo
-		console.println("->Enemigos capturados: " + personaje.enemigos())
-		console.println("->Enemigos en el juego: " + nivelLlaves.enemigosTotal())
+
 		if(personaje.enemigos() == nivelLlaves.enemigosTotal()){
 			game.addVisual(puerta)
 		}
-		//nivelLlaves.sacarEnemigo(self)
-		//if(nivelLlaves.cantidadEnemigos() == 0){
-		//	game.addVisual(puerta)
-		//}
 		
 	} 
 	
@@ -127,6 +118,9 @@ class CeldaSorpresa {
 		personaje.indSalud().actualizarDigitos(personaje.salud())
 		personaje.indEnergia().actualizarDigitos(personaje.energia())
 		game.removeVisual(self)
+		if(personaje.salud() < 1) {
+			utilidadesParaJuego.perder()
+		}
 	}
 	
 	method esEnemigo() = false

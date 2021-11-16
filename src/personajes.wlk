@@ -3,7 +3,7 @@ import utilidades.*
 import nivel1.*
 import elementos.*
 import fondo.*
-import nivelEnergiaNEW.* 
+import indicadores.* 
 
 class Personaje {
 	var property position = game.at(10,8)
@@ -115,7 +115,7 @@ object personajeNivel2 inherits Personaje {
 		enemigos = 0
 		self.indSalud().actualizarDigitos(salud)
 		self.indDinero().actualizarDigitos(dinero)
-		console.println("enemigos: " + enemigos)
+		
 	}
 	
 }
