@@ -123,4 +123,3 @@ object segundoDigito inherits Digito {
 	method actualizar(energia) { image = (energia % 10).toString() + ".png" }
 }
   */
-*/

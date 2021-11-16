@@ -70,11 +70,17 @@ object nivelLlaves {
 	method ganar() {
 		game.clear()
 		game.addVisual(new Fondo(image="winner.png"))
-		personajeNivel1.energia(50)
+		/*personajeNivel1.energia(50)
+		personajeNivel2.energia(50)
+		personajeNivel1.indEnergia().actualizarDigitos(personajeNivel1.energia())
+		personajeNivel2.indEnergia().actualizarDigitos(personajeNivel2.energia())
+		personajeNivel2.enemigos(0)*/
+		personajeNivel1.reiniciarIndicadores()
+		personajeNivel2.reiniciarIndicadores()
 		deposito.bloquesGuardados(0)
 		keyboard.e().onPressDo{nivelBloques.configurate()}
 		keyboard.s().onPressDo{game.stop()}
-		personajeNivel2.enemigos(0) //para resetear los enemigos.
+
 	}
 	
 }

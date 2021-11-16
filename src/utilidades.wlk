@@ -20,10 +20,16 @@ object utilidadesParaJuego {
 		game.schedule(0, {
 			game.clear()
 			game.addVisual(new Fondo(image="gameover.png"))
+			personajeNivel1.reiniciarIndicadores()
+		    personajeNivel2.reiniciarIndicadores()
+			/*
 			personajeNivel1.energia(50)
 			personajeNivel2.energia(50)
 			personajeNivel2.salud(40)
 			personajeNivel2.dinero(0)
+			personajeNivel1.indEnergia().actualizarDigitos(personajeNivel1.energia())
+			personajeNivel2.indSalud().actualizarDigitos(personajeNivel2.salud())
+			personajeNivel2.indDinero().actualizarDigitos(personajeNivel2.dinero())*/
 			deposito.bloquesGuardados(0)
 			keyboard.e().onPressDo{nivelBloques.configurate()}
 		    keyboard.s().onPressDo{game.stop()}

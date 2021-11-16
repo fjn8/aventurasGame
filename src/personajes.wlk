@@ -54,6 +54,11 @@ class Personaje {
 		} else {
 			self.cambiarPosicion(game.at(position.x(), game.height() - 1))
 		}
+	}
+	
+	method reiniciarIndicadores(){
+		energia = 50
+		self.indEnergia().actualizarDigitos(energia)
 	}	
 }
 
@@ -103,6 +108,14 @@ object personajeNivel2 inherits Personaje {
 	
 	method esEnemigo() = false
 	
-	
+	override method reiniciarIndicadores(){
+		super()
+		salud = 40
+		dinero = 0
+		enemigos = 0
+		self.indSalud().actualizarDigitos(salud)
+		self.indDinero().actualizarDigitos(dinero)
+		console.println("enemigos: " + enemigos)
+	}
 	
 }
