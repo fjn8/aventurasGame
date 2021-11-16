@@ -85,10 +85,16 @@ class Enemigo {
 		personaje.indDinero().actualizarDigitos(personaje.dinero())
 		personaje.indSalud().actualizarDigitos(personaje.salud())
 		game.removeVisual(self)
-		nivelLlaves.sacarEnemigo(self)
-		if(nivelLlaves.cantidadEnemigos() == 0){
+		personaje.enemigos(personaje.enemigos()+1) //le sumo un enemigo
+		console.println("->Enemigos capturados: " + personaje.enemigos())
+		console.println("->Enemigos en el juego: " + nivelLlaves.enemigosTotal())
+		if(personaje.enemigos() == nivelLlaves.enemigosTotal()){
 			game.addVisual(puerta)
 		}
+		//nivelLlaves.sacarEnemigo(self)
+		//if(nivelLlaves.cantidadEnemigos() == 0){
+		//	game.addVisual(puerta)
+		//}
 		
 	} 
 	
@@ -133,4 +139,5 @@ object puerta {
 	method colisionarConPersonaje(personaje){
 		nivelLlaves.ganar()
 	}
+	
 }

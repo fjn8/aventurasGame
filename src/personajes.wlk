@@ -96,10 +96,13 @@ object personajeNivel2 inherits Personaje {
 	var property salud = 40
 	var property dinero = 0
 	var property image = "edysbici.png"
+	var property enemigos = 0
 	
 	var property indSalud = new Indicador(imagen = "pulso.png", nivelInicial = salud, posicionInicial = game.at(4, game.height() - 1))
 	var property indDinero = new Indicador(imagen = "dinero.png", nivelInicial = dinero, posicionInicial = game.at(8, game.height() - 1))
 	
 	method esEnemigo() = false
+	
+	
 	
 }

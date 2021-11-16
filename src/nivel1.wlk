@@ -41,6 +41,8 @@ object nivelBloques {
 		// Agregar indicador de energia
 //		nivelEnergia.dibujarDigitos()
 		personajeNivel1.indEnergia().dibujarElementos()
+		
+		
 	}
 	
 	method configurate() {
@@ -73,7 +75,6 @@ object nivelBloques {
 		game.schedule(3000, {
 			game.clear()
 			nivelLlaves.configurate()
-		})
 	}
 		
 }

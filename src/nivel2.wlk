@@ -3,26 +3,26 @@ import fondo.*
 import personajes.*
 import utilidades.*
 import elementos.*
-import utilidades.*
 import nivelEnergia.*
 import nivel1.*
 
 object nivelLlaves {
+	var property enemigosTotal = 0
 //	var visualesNivel = [personajeNivel2, new Enemigo(image="personaje01.png", dineroQueOtorga = 5),
 //		new Enemigo(image="personaje02.png", dineroQueOtorga = 10), new Enemigo(image="personaje03.png", dineroQueOtorga = 15),
 //		new CeldaSorpresa(), new CeldaSorpresa()]
 //		
 //	var posiciones = utilidadesParaJuego.crearPosicionesAleatorias(visualesNivel.size())
 	
-	method cantidadEnemigos() = visualesNivel.count({ v => v.esEnemigo()})
+	//method cantidadEnemigos() = visualesNivel.count({ v => v.esEnemigo()})
 	
-	method sacarEnemigo(enemigo) { visualesNivel.remove(enemigo)}
+	//method sacarEnemigo(enemigo) { visualesNivel.remove(enemigo)}
 	
 	method inicializarVisuales() {
 		var visualesNivel = [personajeNivel2, new Enemigo(image="personaje01.png", dineroQueOtorga = 5),
 		new Enemigo(image="personaje02.png", dineroQueOtorga = 10), new Enemigo(image="personaje03.png", dineroQueOtorga = 15),
 		new CeldaSorpresa(), new CeldaSorpresa()]
-		
+		enemigosTotal = visualesNivel.count({ v => v.esEnemigo()})
 		var posiciones = utilidadesParaJuego.crearPosicionesAleatorias(visualesNivel.size())
 		
 		// Agregar el fondo
@@ -39,6 +39,9 @@ object nivelLlaves {
 		personajeNivel2.indDinero().dibujarElementos()
 		personajeNivel2.indSalud().dibujarElementos()
 		personajeNivel2.indEnergia().dibujarElementos()
+		
+		//personajeNivel2.indEnergia().actualizarDigitos(personajeNivel2.energia())
+		
 	}
 	
 	method configurate() {
@@ -71,6 +74,7 @@ object nivelLlaves {
 		deposito.bloquesGuardados(0)
 		keyboard.e().onPressDo{nivelBloques.configurate()}
 		keyboard.s().onPressDo{game.stop()}
+		personajeNivel2.enemigos(0) //para resetear los enemigos.
 	}
 	
 }
